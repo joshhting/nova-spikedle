@@ -1,40 +1,26 @@
-from fastapi import FastAPI
-import csv
-import hashlib
+import json
 from datetime import date
-from pathlib import Path
+from load_quotes import load_quotes_from_local
 
-app = FastAPI()
-
-QUOTES = []
-AUTHORS = set()
-
-# --- Load CSV at startup ---
-csv_path = Path(__file__).parent / "quotes.csv"
-with open(csv_path, newline="", encoding="utf-8") as f:
-    reader = csv.DictReader(f, fieldnames=["quote", "author", "id"])
-    for row in reader:
-        if row["quote"] and row["author"] and row["quote"] != "quote":  # skip header
-            QUOTES.append({"quote": row["quote"], "author": row["author"]})
-            AUTHORS.add(row["author"])
-AUTHORS = sorted(AUTHORS)
-
-
-# --- Helpers ---
-def get_daily_index() -> int:
-    today = date.today().isoformat()
-    h = hashlib.sha256(today.encode()).hexdigest()
-    return int(h, 16) % len(QUOTES)
-
+def get_daily_quote():
+	quotes, authors = load_quotes_from_local()
+	today = date.today()
+	idx = today.toordinal() % len(quotes)
+	return quotes[idx][0], quotes[idx][1], authors
 
 # --- API Endpoint ---
-@app.get("/api/daily-puzzle")
-def daily_puzzle():
-    idx = get_daily_index()
-    q = QUOTES[idx]
-    return {
-        "quote": q["quote"],
-        "author": q["author"],
-        "authorsList": AUTHORS,
-        "attemptsAllowed": 13
-    }
+def lambda_handler(event, context):
+	quote, author, authors = get_daily_quote()
+	print(f"{author}: {quote}")
+	return {
+		"statusCode": 200,
+		"headers": {
+			"Content-Type": "application/json",
+			"Access-Control-Allow-Origin": "*"  # allow frontend to call
+		},
+		"body": json.dumps({
+			"quote": quote,
+			"author": author,
+			"possible_authors": authors
+		})
+	}
