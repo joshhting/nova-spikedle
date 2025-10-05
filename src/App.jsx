@@ -2,8 +2,8 @@
 import { useEffect, useState } from "react";
 import "./App.css";
 
-const API_URL = https://main.d1if3f9a4t7jmr.amplifyapp.com || "http://localhost:8000/api/daily-puzzle";
-const MAX_ATTEMPTS = 13;
+const API_URL = import.meta.env.VITE_API_URL;
+const MAX_ATTEMPTS = 18;
 
 function App() {
   const [puzzle, setPuzzle] = useState(null);
@@ -20,7 +20,7 @@ function App() {
         setPuzzle(data);
         setRevealed(obscureQuote(data.quote));
       })
-      .catch((err) => console.error("Error loading puzzle:", err));
+      .catch((err) => console.error(err));
   }, []);
 
   // Hide all letters at the start
