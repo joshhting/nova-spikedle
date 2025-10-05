@@ -6,7 +6,7 @@ def get_daily_quote():
 	quotes, authors = load_quotes_from_local()
 	today = date.today()
 	idx = today.toordinal() % len(quotes)
-	return quotes[idx][0], quotes[idx][1], authors
+	return quotes[idx]["quote"], quotes[idx]["author"], authors
 
 # --- API Endpoint ---
 def lambda_handler(event, context):

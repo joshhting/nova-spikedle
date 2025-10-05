@@ -4,7 +4,7 @@ from pathlib import Path
 
 QUOTES_S3_BUCKET = "nova-quordle-csv"
 
-def load_quotes_from_local(path: str):
+def load_quotes_from_local():
     quotes = []
     authors = set()
     csv_path = "quotes.csv"
@@ -14,6 +14,6 @@ def load_quotes_from_local(path: str):
             if row["quote"] and row["author"] and row["quote"] != "quote":  # skip header
                 quotes.append({"quote": row["quote"], "author": row["author"]})
                 authors.add(row["author"])
-    return quotes, authors
+    return quotes, sorted(list(authors))
 
 

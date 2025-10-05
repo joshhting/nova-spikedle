@@ -15,7 +15,10 @@ function App() {
 
   useEffect(() => {
     fetch(API_URL)
-      .then((res) => res.json())
+      .then((res) => {
+        console.log(res);
+        return res.json();
+      })
       .then((data) => {
         setPuzzle(data);
         setRevealed(obscureQuote(data.quote));
