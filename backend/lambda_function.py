@@ -16,7 +16,9 @@ def lambda_handler(event, context):
 		"statusCode": 200,
 		"headers": {
 			"Content-Type": "application/json",
-			"Access-Control-Allow-Origin": "*"  # allow frontend to call
+			"Access-Control-Allow-Origin": "https://main.d1if3f9a4t7jmr.amplifyapp.com",
+			"Access-Control-Allow-Headers": "*",
+			"Access-Control-Allow-Methods": "GET"
 		},
 		"body": json.dumps({
 			"quote": quote,

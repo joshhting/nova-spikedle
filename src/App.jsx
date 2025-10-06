@@ -12,6 +12,7 @@ function App() {
   const [authorGuess, setAuthorGuess] = useState("");
   const [gameOver, setGameOver] = useState(false);
   const [message, setMessage] = useState("");
+  const [guessedLetters, setGuessedLetters] = useState(new Set());
 
   useEffect(() => {
     fetch(API_URL)
@@ -32,20 +33,21 @@ function App() {
   }
 
   function handleLetterGuess(letter) {
-    if (gameOver || !puzzle) return;
+    if (gameOver || !puzzle || guessedLetters.has(letter)) return;
 
     let newRevealed = "";
     let correctGuess = false;
+    const newGuessed = new Set(guessedLetters);
+    newGuessed.add(letter);
+    setGuessedLetters(newGuessed);
 
     for (let i = 0; i < puzzle.quote.length; i++) {
       const ch = puzzle.quote[i];
-      if (revealed[i] !== "_") {
-        newRevealed += revealed[i];
-      } else if (ch.toLowerCase() === letter.toLowerCase()) {
+      if (ch.toLowerCase() === letter.toLowerCase()) {
         newRevealed += ch;
         correctGuess = true;
       } else {
-        newRevealed += "_";
+        newRevealed += revealed[i];
       }
     }
 
@@ -94,7 +96,7 @@ function App() {
           <button
             key={letter}
             onClick={() => handleLetterGuess(letter)}
-            disabled={gameOver || !revealed.includes("_")}
+            disabled={gameOver || !revealed.includes("_") || guessedLetters.has(letter)}
           >
             {letter}
           </button>
