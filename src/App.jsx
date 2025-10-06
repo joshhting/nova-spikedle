@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import "./App.css";
 
 const API_URL = import.meta.env.VITE_API_URL;
-const MAX_ATTEMPTS = 18;
+const MAX_ATTEMPTS = 20;
 
 function App() {
   const [puzzle, setPuzzle] = useState(null);
@@ -13,6 +13,8 @@ function App() {
   const [gameOver, setGameOver] = useState(false);
   const [message, setMessage] = useState("");
   const [guessedLetters, setGuessedLetters] = useState(new Set());
+  const [guessedAuthors, setGuessedAuthors] = useState(new Set());
+
 
   useEffect(() => {
     fetch(API_URL)
@@ -64,12 +66,14 @@ function App() {
   }
 
   function handleAuthorGuess() {
-    if (gameOver || !puzzle) return;
+    if (gameOver || !puzzle || guessedAuthors.has(authorGuess)) return;
     setAttempts((prev) => prev - 1);
+    const newGuessed = new Set(guessedAuthors);
+    newGuessed.add(author);
+    setGuessedAuthors(newGuessed);
 
     if (authorGuess === puzzle.author) {
       setMessage("✅ Correct author: " + puzzle.author);
-      setGameOver(true);
     } else if (attempts - 1 <= 0) {
       setMessage("❌ Out of attempts. The author was: " + puzzle.author);
       setGameOver(true);
