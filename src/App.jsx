@@ -1,7 +1,7 @@
-import QuoteDisplay from "./components/QuoteDisplay";
-import Keyboard from "./components/Keyboard";
-import AuthorSelector from "./components/AuthorSelector";
-import { useNovaPuzzle } from "./hooks/usePuzzle";
+import QuoteDisplay from "./QuoteDisplay";
+import Keyboard from "./Keyboard";
+import AuthorSelector from "./AuthorSelector";
+import { useNovaPuzzle } from "./usePuzzle";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
