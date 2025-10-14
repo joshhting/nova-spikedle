@@ -1,7 +1,7 @@
-import QuoteDisplay from "./components/QuoteDisplay";
-import Keyboard from "./components/Keyboard";
-import AuthorSelector from "./components/AuthorSelector";
-import { useNovaPuzzle } from "./hooks/usePuzzle";
+import QuoteDisplay from "./QuoteDisplay";
+import Keyboard from "./Keyboard";
+import AuthorSelector from "./AuthorSelector";
+import { useNovaPuzzle } from "./usePuzzle";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -21,7 +21,7 @@ export default function App() {
 
   return (
     <div style={{ padding: "2rem", fontFamily: "Arial" }}>
-      <h1>Nova Quordle</h1>
+      <h1>Nova Spikedle</h1>
       <QuoteDisplay revealed={revealed} />
       <p>Attempts left: {attemptsLeft}</p>
       <p>{message}</p>
