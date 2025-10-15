@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-const MAX_ATTEMPTS = 20;
+const MAX_ATTEMPTS = 15;
 
 export function useNovaPuzzle(apiUrl) {
   const [puzzle, setPuzzle] = useState(null);
