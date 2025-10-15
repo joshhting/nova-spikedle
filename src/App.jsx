@@ -1,6 +1,7 @@
 import QuoteDisplay from "./QuoteDisplay";
 import Keyboard from "./Keyboard";
 import AuthorSelector from "./AuthorSelector";
+import FullQuoteGuess from "./FullQuoteGuess";
 import { useNovaPuzzle } from "./usePuzzle";
 
 const API_URL = import.meta.env.VITE_API_URL;
@@ -15,6 +16,8 @@ export default function App() {
     guessedAuthors,
     handleLetterGuess,
     handleAuthorGuess,
+    handleFullQuoteGuess,
+    gameOver,
   } = useNovaPuzzle(API_URL);
 
   if (!puzzle) return <div>Loading puzzle...</div>;
@@ -31,6 +34,7 @@ export default function App() {
         guessedAuthors={guessedAuthors}
         onGuess={handleAuthorGuess}
       />
+      <FullQuoteGuess onGuess={handleFullQuoteGuess} disabled={gameOver} />
     </div>
   );
 }
