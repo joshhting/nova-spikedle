@@ -28,7 +28,6 @@ export function useNovaPuzzle(apiUrl) {
         const res = await fetch(apiUrl);
         const data = await res.json();
         setPuzzle(data);
-        setAttemptsLeft(data.attempts_allowed);
         setRevealed(maskQuote(data.quote));
       } catch (err) {
         console.error(err);
