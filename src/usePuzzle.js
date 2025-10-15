@@ -52,7 +52,7 @@ export function useNovaPuzzle(apiUrl) {
       setGameOver(true);
     } else {
       setMessage(
-        updatedRevealed.includes(letter)
+        puzzle.quote.toLowerCase().includes(letter.toLowerCase())
           ? `Good guess: "${letter}"`
           : `No "${letter}" found`
       );
