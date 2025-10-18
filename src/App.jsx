@@ -35,6 +35,7 @@ export default function App() {
         onGuess={handleAuthorGuess}
       />
       <FullQuoteGuess onGuess={handleFullQuoteGuess} disabled={gameOver} />
+      <p>Created by Josh Ting at https://github.com/joshhting/nova-spikedle. Please don't share this page with people outside of nova spikes, I'm too poor to support increased internet traffic</p>
     </div>
   );
 }
