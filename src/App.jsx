@@ -18,6 +18,7 @@ export default function App() {
     handleAuthorGuess,
     handleFullQuoteGuess,
     gameOver,
+    feedback,
   } = useNovaPuzzle(API_URL);
 
   if (!puzzle) return <div>Loading puzzle...</div>;
@@ -28,14 +29,19 @@ export default function App() {
       <QuoteDisplay revealed={revealed} />
       <p>Attempts left: {attemptsLeft}</p>
       <p>{message}</p>
-      <Keyboard guessedLetters={guessedLetters} onGuess={handleLetterGuess} />
+      <Keyboard
+        guessedLetters={guessedLetters}
+        feedback={feedback}
+        onGuess={handleLetterGuess}
+      />
       <AuthorSelector
         authors={puzzle.possible_authors}
         guessedAuthors={guessedAuthors}
         onGuess={handleAuthorGuess}
       />
       <FullQuoteGuess onGuess={handleFullQuoteGuess} disabled={gameOver} />
-      <p>Created by Josh Ting at https://github.com/joshhting/nova-spikedle. Please don't share this page with people outside of nova spikes, I'm too poor to support increased internet traffic</p>
+      <p>Created by Josh Ting at <a href="https://github.com/joshhting/nova-spikedle">https://github.com/joshhting/nova-spikedle</a>.
+      Please don't share this page with people outside of nova spikes, I'm too poor to support increased internet traffic</p>
     </div>
   );
 }

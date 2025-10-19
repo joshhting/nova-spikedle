@@ -10,6 +10,7 @@ export function useNovaPuzzle(apiUrl) {
   const [guessedAuthors, setGuessedAuthors] = useState(new Set());
   const [message, setMessage] = useState("");
   const [gameOver, setGameOver] = useState(false);
+  const [feedback, setFeedback] = useState({});
 
   const maskQuote = (quote, guesses = new Set()) =>
     quote
@@ -38,7 +39,7 @@ export function useNovaPuzzle(apiUrl) {
   }, [apiUrl]);
 
   const handleLetterGuess = (letter) => {
-    if (!puzzle || attemptsLeft <= 0 || guessedLetters.has(letter)) return;
+    if (!puzzle || gameOver || attemptsLeft <= 0 || guessedLetters.has(letter)) return;
 
     const newGuessed = new Set(guessedLetters);
     newGuessed.add(letter);
@@ -47,14 +48,19 @@ export function useNovaPuzzle(apiUrl) {
     const updatedRevealed = maskQuote(puzzle.quote, newGuessed);
     setRevealed(updatedRevealed);
     setAttemptsLeft(attemptsLeft - 1);
+    const found = puzzle.quote.toLowerCase().includes(letter.toLowerCase());
+
+    setFeedback((prev) => ({
+      ...prev,
+      [letter]: found ? "correct" : "wrong",
+    }));
+
     if (updatedRevealed === puzzle.quote) {
       setMessage(`🎉 You revealed the entire quote!`);
       setGameOver(true);
     } else {
       setMessage(
-        puzzle.quote.toLowerCase().includes(letter.toLowerCase())
-          ? `Good guess: "${letter}"`
-          : `No "${letter}" found`
+        found ? `Good guess: "${letter}"` : `No "${letter}" found`
       );
     }
   };
@@ -96,6 +102,7 @@ export function useNovaPuzzle(apiUrl) {
     handleLetterGuess,
     handleAuthorGuess,
     handleFullQuoteGuess,
-    gameOver
+    gameOver,
+    feedback
   };
 }
