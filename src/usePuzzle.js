@@ -70,7 +70,8 @@ export function useNovaPuzzle(apiUrl) {
 
     const updatedRevealed = maskQuote(puzzle.quote, newGuessed);
     setRevealed(updatedRevealed);
-    setAttemptsLeft(attemptsLeft - 1);
+    const newAttempts = attemptsLeft - 1;
+    setAttemptsLeft(newAttempts);
     const found = puzzle.quote.toLowerCase().includes(letter.toLowerCase());
 
     setHistory((prev) => [...prev, found]);
@@ -87,7 +88,7 @@ export function useNovaPuzzle(apiUrl) {
       setMessage(
         found ? `Good guess: "${letter}"` : `No "${letter}" found`
       );
-      if (attemptsLeft == 0) {
+      if (newAttempts <= 0) {
         setGameState("loss");
       }
     }
@@ -109,7 +110,8 @@ export function useNovaPuzzle(apiUrl) {
   const handleFullQuoteGuess = (guess) => {
     if (!puzzle || gameState || attemptsLeft <= 0) return;
 
-    setAttemptsLeft((prev) => prev - 1);
+    const newAttempts = attemptsLeft - 1;
+    setAttemptsLeft(newAttempts);
 
     if (guess.trim().toLowerCase() === puzzle.quote.trim().toLowerCase()) {
       setRevealed(puzzle.quote);
@@ -119,7 +121,7 @@ export function useNovaPuzzle(apiUrl) {
     } else {
       setHistory((prev) => [...prev, false]);
       setMessage("❌ Quote is incorrect. Be sure to check nonalphabetic characters as well.");
-      if (attemptsLeft == 0) {
+      if (newAttempts <= 0) {
         setGameState("loss");
       }
     }
