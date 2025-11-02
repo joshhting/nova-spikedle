@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 
 const MAX_ATTEMPTS = 15;
+const MAX_AUTHOR_ATTEMPTS = 5;
 
 export function useNovaPuzzle(apiUrl) {
   const [puzzle, setPuzzle] = useState(null);
   const [revealed, setRevealed] = useState("");
   const [attemptsLeft, setAttemptsLeft] = useState(MAX_ATTEMPTS);
+  const [authorAttemptsLeft, setAuthorAttemptsLeft] = useState(MAX_AUTHOR_ATTEMPTS);
   const [guessedLetters, setGuessedLetters] = useState(new Set());
   const [guessedAuthors, setGuessedAuthors] = useState(new Set());
   const [message, setMessage] = useState("");
@@ -95,11 +97,11 @@ export function useNovaPuzzle(apiUrl) {
   };
 
   const handleAuthorGuess = (author) => {
-    if (!puzzle || gameState || attemptsLeft <= 0 || guessedAuthors.has(author)) return;
+    if (!puzzle || authorAttemptsLeft <= 0 || guessedAuthors.has(author)) return;
     const newGuessed = new Set(guessedAuthors);
     newGuessed.add(author);
     setGuessedAuthors(newGuessed);
-    setAttemptsLeft(attemptsLeft - 1);
+    setAuthorAttemptsLeft(authorAttemptsLeft - 1);
     setMessage(
       author === puzzle.author
         ? `🎉 Correct! The quote is by ${author}.`
@@ -131,6 +133,7 @@ export function useNovaPuzzle(apiUrl) {
     puzzle,
     revealed,
     attemptsLeft,
+    authorAttemptsLeft,
     message,
     guessedLetters,
     guessedAuthors,

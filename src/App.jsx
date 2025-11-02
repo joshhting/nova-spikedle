@@ -12,6 +12,7 @@ export default function App() {
     puzzle,
     revealed,
     attemptsLeft,
+    authorAttemptsLeft,
     message,
     guessedLetters,
     guessedAuthors,
@@ -30,7 +31,8 @@ export default function App() {
     <div style={{ padding: "2rem", fontFamily: "Arial" }}>
       <h1>Nova Spikedle</h1>
       <QuoteDisplay revealed={revealed} />
-      <p>Attempts left: {attemptsLeft}</p>
+      <p>Attempts to guess quote left: {attemptsLeft}</p>
+      <p>Attempts to guess author left: {authorAttemptsLeft}</p>
       <p>{message}</p>
       <Keyboard
         guessedLetters={guessedLetters}
