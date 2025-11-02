@@ -97,7 +97,7 @@ export function useNovaPuzzle(apiUrl) {
   };
 
   const handleAuthorGuess = (author) => {
-    if (!puzzle || authorAttemptsLeft <= 0 || guessedAuthors.has(author)) return;
+    if (!puzzle || authorAttemptsLeft <= 0 || guessedAuthors.has(author) || guessedAuthors.has(puzzle.author)) return;
     const newGuessed = new Set(guessedAuthors);
     newGuessed.add(author);
     setGuessedAuthors(newGuessed);
