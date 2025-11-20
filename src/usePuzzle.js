@@ -20,7 +20,7 @@ export function useNovaPuzzle(apiUrl) {
   useEffect(() => {
     if (gameState === "loss" && puzzle) {
       setRevealed(puzzle.quote);
-      setMessage(`💀 You lost — the quote was "${puzzle.quote}" by ${puzzle.author}`);
+      setMessage(`💀 You lost — the quote was "${puzzle.quote}"`);
     }
   }, [gameState, puzzle]);
 
@@ -101,12 +101,14 @@ export function useNovaPuzzle(apiUrl) {
     const newGuessed = new Set(guessedAuthors);
     newGuessed.add(author);
     setGuessedAuthors(newGuessed);
-    setAuthorAttemptsLeft(authorAttemptsLeft - 1);
     setMessage(
       author === puzzle.author
         ? `🎉 Correct! The quote is by ${author}.`
-        : `❌ ${author} is not correct.`
+        : (authorAttemptsLeft > 1
+          ? `❌ ${author} is not correct.`
+          : `💀 The correct author was ${puzzle.author}.`)
     );
+    setAuthorAttemptsLeft(authorAttemptsLeft - 1);
   };
 
   const handleFullQuoteGuess = (guess) => {
