@@ -124,7 +124,7 @@ export function useNovaPuzzle(apiUrl) {
       setGameState("win");
     } else {
       setHistory((prev) => [...prev, false]);
-      setMessage("❌ Quote is incorrect. Be sure to check nonalphabetic characters as well.");
+      setMessage(`❌ The quote, "${guess}" is incorrect. Be sure to check nonalphabetic characters as well.`);
       if (newAttempts <= 0) {
         setGameState("loss");
       }
