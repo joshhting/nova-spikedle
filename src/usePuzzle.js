@@ -114,10 +114,20 @@ export function useNovaPuzzle(apiUrl) {
   const handleFullQuoteGuess = (guess) => {
     if (!puzzle || gameState || attemptsLeft <= 0) return;
 
+    const normalize = (str) =>
+      str
+        .replace(/['’]/g, "'") // Normalize apostrophes
+        .replace(/["“”]/g, '"') // Normalize double quotes
+        .trim()
+        .toLowerCase();
+
+    const normalizedGuess = normalize(guess);
+    const normalizedQuote = normalize(puzzle.quote);
+
     const newAttempts = attemptsLeft - 1;
     setAttemptsLeft(newAttempts);
 
-    if (guess.trim().toLowerCase() === puzzle.quote.trim().toLowerCase()) {
+    if (normalizedGuess === normalizedQuote) {
       setRevealed(puzzle.quote);
       setHistory((prev) => [...prev, true]);
       setMessage("🎯 Perfect! You guessed the entire quote!");
